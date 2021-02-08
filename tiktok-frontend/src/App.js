@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
-import Video from './Video';
+import Video from './Video'
 import axios from './axios'
+import Helmet from 'react-helmet'
 
 function App() {
  const [videos, setVideos] = useState([])
@@ -21,6 +22,7 @@ function App() {
 
   return (
     <div className="app">
+      <Helmet title="Home - TikTok Clone" />
       <div className="app__videos">
       {videos.map(({url, channel, description, song, likes, messages, shares}) => (
         <Video 
