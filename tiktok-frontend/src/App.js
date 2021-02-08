@@ -1,36 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import Video from './Video';
+import axios from './axios'
 
 function App() {
+ const [videos, setVideos] = useState([])
+  
+  useEffect(() => {
+    async function fetchPosts() {
+      const response = await axios.get("/v2/posts")
+      setVideos(response.data)
+
+      return response
+    }
+
+    fetchPosts()
+  }, [])
+
+  console.log(videos)
+
   return (
     <div className="app">
-
       <div className="app__videos">
-        <Video url='https://media.giphy.com/media/ei4OKrzlxQ67oTIKAJ/giphy.mp4' 
-        channel="test"
-        description="just a test"
-        song="i am a song"
-        likes={123}
-        messages={54}
-        shares={12}
+      {videos.map(({url, channel, description, song, likes, messages, shares}) => (
+        <Video 
+        url={url}
+        channel={channel}
+        description={description}
+        song={song}
+        likes={likes}
+        messages={messages}
+        shares={shares}
         />
-        <Video url='https://media.giphy.com/media/t0zjKGzPe97Hi8viIu/giphy.mp4' 
-        channel="xoxo"
-        description="xocolo"
-        song="i am a song"
-        likes={200}
-        messages={43}
-        shares={32}
-        />
+      ))}
       </div>
-      
-
-      {/* app container */}
-
-      {/* <Video /> */}
     </div>
-  );
+  )
 }
 
 export default App;
